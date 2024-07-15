@@ -1,9 +1,15 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("maven-publish")
     id("org.jetbrains.kotlin.plugin.serialization") version "1.7.10"
 }
 
+repositories {
+    google()
+    mavenCentral()
+    maven("https://jitpack.io")
+}
 
 android {
     namespace = "com.burninglab.cpunityplugin"
@@ -31,6 +37,41 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    publishing {
+        multipleVariants {
+            allVariants()
+            withJavadocJar()
+            withSourcesJar()
+        }
+    }
+}
+
+afterEvaluate {
+    publishing {
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                /** Configure path of your package repository on Github
+                 *  Replace GITHUB_USERID with your/organisation Github userID and REPOSITORY with the repository name on GitHub
+                 */
+                url = uri("https://maven.pkg.github.com/burning-laboratory/android-cloud-payments-unity-plugin") // Github Package
+                credentials {
+                    //Fetch these details from the properties file or from Environment variables
+                    username = System.getenv("GITHUB_USERNAME")
+                    password = System.getenv("GITHUB_TOKEN")
+                }
+            }
+        }
+        publications {
+            create<MavenPublication>("mavenRelease") {
+                groupId = "com.burning-lab"
+                artifactId = "cpunityplugin"
+                version = "1.0"
+
+                from(components["release"])
+            }
+        }
+    }
 }
 
 dependencies {
@@ -43,5 +84,7 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.1")
     implementation("ru.cloudpayments.gitpub.integrations.sdk:cloudpayments-android:1.5.2")
+
+    compileOnly(fileTree("libs"))
 
 }

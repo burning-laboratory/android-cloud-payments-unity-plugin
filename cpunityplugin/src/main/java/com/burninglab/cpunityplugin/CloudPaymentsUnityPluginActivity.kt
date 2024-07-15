@@ -28,19 +28,27 @@ class CloudPaymentsUnityPluginActivity : AppCompatActivity() {
      * Launcher for cloud payments SDK activity.
      */
     val cpSdkLauncher = CloudpaymentsSDK.getInstance().launcher(this, result = {
+
+
         if (it.status != null) {
             if (it.status == CloudpaymentsSDK.TransactionStatus.Succeeded) {
                 Toast.makeText(this, "Успешно! Транзакция №${it.transactionId}", Toast.LENGTH_SHORT).show()
 
-                finish()
+
             } else {
                 if (it.reasonCode != 0) {
                     Toast.makeText(this, "Ошибка! Транзакция №${it.transactionId}. Код ошибки ${it.reasonCode}", Toast.LENGTH_SHORT).show()
+
+
                 } else {
                     Toast.makeText(this, "Ошибка! Транзакция №${it.transactionId}.", Toast.LENGTH_SHORT).show()
+
+
                 }
             }
         }
+
+        finish()
     })
 
     //endregion

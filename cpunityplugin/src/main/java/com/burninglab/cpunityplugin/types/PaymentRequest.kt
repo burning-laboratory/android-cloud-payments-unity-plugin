@@ -2,6 +2,7 @@ package com.burninglab.cpunityplugin.types
 
 import com.burninglab.cpunityplugin.types.auth.AuthData
 import com.burninglab.cpunityplugin.types.configs.PaymentConfig
+import com.burninglab.cpunityplugin.types.configs.ResponseConfig
 import com.burninglab.cpunityplugin.types.data.InvoiceInfo
 import com.burninglab.cpunityplugin.types.data.PayerInfo
 import kotlinx.serialization.Serializable
@@ -30,6 +31,8 @@ data class PaymentRequest(
      * Payment operation configuration.
      */
     val config:PaymentConfig = PaymentConfig(),
+
+    val responseConfig: ResponseConfig = ResponseConfig(),
 
     /**
      * Custom JSON data.
