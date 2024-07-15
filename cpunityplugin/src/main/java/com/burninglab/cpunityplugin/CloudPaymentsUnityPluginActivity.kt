@@ -2,15 +2,18 @@ package com.burninglab.cpunityplugin
 
 import android.app.Activity
 import android.content.Intent
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.burninglab.cpunityplugin.types.PaymentRequest
 import com.burninglab.cpunityplugin.types.PaymentResponse
+import com.unity3d.player.UnityPlayer
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import ru.cloudpayments.sdk.api.models.PaymentDataPayer
 import ru.cloudpayments.sdk.configuration.CloudpaymentsSDK
 import ru.cloudpayments.sdk.configuration.PaymentConfiguration
 import ru.cloudpayments.sdk.configuration.PaymentData
+import kotlin.math.log
 
 class CloudPaymentsUnityPluginActivity : AppCompatActivity() {
 
@@ -57,8 +60,12 @@ class CloudPaymentsUnityPluginActivity : AppCompatActivity() {
             var methodName = paymentRequest.responseConfig.callbackMethodName;
             var serializedResponse:String = Json.encodeToString(response)
 
-
+            UnityPlayer.UnitySendMessage(objectName, methodName, serializedResponse)
         }
+
+        response.errorCode = 25;
+        var serializedResponse:String = Json.encodeToString(response)
+        Log.i("INFO", "Serialized payment response: $serializedResponse")
 
         finish()
     })
@@ -75,7 +82,7 @@ class CloudPaymentsUnityPluginActivity : AppCompatActivity() {
 
         val extras = intent.extras;
         val serializedPaymentRequest:String? = extras?.getString(PaymentRequestExtraKey)
-        var paymentRequest:PaymentRequest = Json.decodeFromString(serializedPaymentRequest.toString())
+        val paymentRequest:PaymentRequest = Json.decodeFromString(serializedPaymentRequest.toString())
 
         startPayment(paymentRequest)
     }

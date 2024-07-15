@@ -12,7 +12,9 @@ import com.burninglab.cpunityplugin.CloudPaymentsUnityPluginActivity
 import com.burninglab.cpunityplugin.types.PaymentRequest
 import com.burninglab.cpunityplugin.types.auth.AuthData
 import com.burninglab.cpunityplugin.types.configs.PaymentConfig
+import com.burninglab.cpunityplugin.types.configs.ResponseConfig
 import com.burninglab.cpunityplugin.types.data.InvoiceInfo
+import com.burninglab.cpunityplugin.types.data.PayerInfo
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
@@ -30,14 +32,41 @@ class MainActivity : ComponentActivity() {
             authData = AuthData(
                 publicId = "pk_2092fac1c28490f3c7a035ad26c39"
             ),
-            config = PaymentConfig(),
-            invoiceInfo = InvoiceInfo()
+            config = PaymentConfig(
+                requiredEmail = true,
+                useDualMessagePayment = false,
+                apiUrl = "https://api.cloudpayments.ru"
+            ),
+            invoiceInfo = InvoiceInfo(
+                invoiceId = "test_invoice",
+                invoiceDescription = "Test invoice description",
+                amount = 100.0f,
+                currencyCode = "RUB"
+            ),
+            payerInfo = PayerInfo(
+                firstName = "Payer first name",
+                lastName = "Payer last name",
+                middleName = "Payer middle name",
+                birthDay = "01.01.2000",
+                address = "Payer address. Example: 24486 Yukon Rd, Kasilof, Alaska 99610, USA",
+                street = "Payer street. Example: 24486 Yukon Rd",
+                city = "Kasilof",
+                country = "USA",
+                phone = "Payer mobile phone number. Example: +0 (907) 262-6261",
+                postCode = "Payer adress post code. Example: 99610",
+                accountId = "payer_account_unique_id",
+                email = "support@burning-lab.com"
+            ),
+            responseConfig = ResponseConfig(
+                callbackObjectName = "Unity Callback Object Name",
+                callbackMethodName = "Unity Callback Method Name"
+            )
         )
 
         val serializedPaymentRequest = Json.encodeToString(paymentRequest)
 
         val act = CloudPaymentsUnityPluginActivity()
-        act.startPayment(this, serializedPaymentRequest)
+        act.startPaymentWithoutNotify(this, serializedPaymentRequest)
     }
 }
 

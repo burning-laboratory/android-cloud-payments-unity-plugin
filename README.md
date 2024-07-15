@@ -34,12 +34,12 @@ List of [EDM4U](https://github.com/googlesamples/unity-jar-resolver.git) depende
             </repositories>
         </androidPackage>
 
-        <androidPackage spec="com.burning-lab:yoo-kassa-unity-plugin:[1.0.0]">
+        <androidPackage spec="com.burning-lab:cpunityplugin:[1.1.0]">
             <androidSdkPackageIds>
-                <androidSdkPackageId>yoo-kassa-unity-plugin</androidSdkPackageId>
+                <androidSdkPackageId>cpunityplugin</androidSdkPackageId>
             </androidSdkPackageIds>
             <repositories>
-                <repository>https://[GITHUB_USERNAME]:[GITHUB_USER_TOKEN]@maven.pkg.github.com/burning-laboratory/android-yoo-kassa-plugin/</repository>
+                <repository>https://maven.pkg.github.com/burning-laboratory/android-cloud-payments-unity-plugin</repository>
                 
             </repositories>
         </androidPackage>
@@ -67,13 +67,13 @@ Start tokenization process from Unity application example.
         // Call tokenization process from ui thread.
         currentActivity.Call("runOnUiThread", new AndroidJavaRunnable(() =>
         {
-            using (AndroidJavaObject yooKassaUnityPluginActivity = new AndroidJavaObject("com.burninglab.cpunityplugin.CloudPaymentsUnityPluginActivity"))
+            using (AndroidJavaObject cpUnityPluginActivity = new AndroidJavaObject("com.burninglab.cpunityplugin.CloudPaymentsUnityPluginActivity"))
             {
                 AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
                 AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
 
                 // Call start tokenization plugin method.
-                yooKassaUnityPluginActivity.Call("startPayment", currentActivity, paymentRequest);
+                cpUnityPluginActivity.Call("startPayment", currentActivity, paymentRequest);
             }
         }));
     }
@@ -82,8 +82,49 @@ Start tokenization process from Unity application example.
 ## Examples
 
 ### Payment Request
+Serialized payment request example.
+```json
+{
+	"authData": {
+		"publicId": "pk_2092fac1c28490f3c7a035ad26c39"
+	},
+	"payerInfo": {
+		"firstName": "Payer first name",
+		"lastName": "Payer last name",
+		"middleName": "Payer middle name",
+		"birthDay": "01.01.2000",
+		"address": "Payer address. Example: 24486 Yukon Rd, Kasilof, Alaska 99610, USA",
+		"street": "Payer street. Example: 24486 Yukon Rd",
+		"city": "Kasilof",
+		"country": "USA",
+		"phone": "Payer mobile phone number. Example: +0 (907) 262-6261",
+		"postCode": "Payer adress post code. Example: 99610",
+		"accountId": "payer_account_unique_id",
+		"email": "support@burning-lab.com"
+	},
+	"invoiceInfo": {
+		"invoiceId": "test_invoice",
+		"amount": 100.0,
+		"currencyCode": "RUB",
+		"invoiceDescription": "Invoice description."
+	},
+	"responseConfig": {
+		"callbackObjectName": "Unity Callback Object Name",
+		"callbackMethodName": "Unity Callback Method Name"
+	}
+}
+```
 
+### Payment response
 
+Example of payment operation serialized response.
+
+```json
+{
+	"status": true,
+	"errorCode": 0
+}
+```
 
 ## License
 

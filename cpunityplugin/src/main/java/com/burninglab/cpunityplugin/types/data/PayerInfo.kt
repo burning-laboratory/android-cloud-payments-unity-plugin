@@ -65,5 +65,5 @@ data class PayerInfo(
     /**
      * Payer email.
      */
-    val email:String = "email"
+    val email:String = ""
 )
