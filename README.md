@@ -126,6 +126,19 @@ Example of payment operation serialized response.
 }
 ```
 
+## Handle payment operation result
+
+Plugin use Unity JNI system for sending serialized payment operation response to your event method.
+Your can read more information for unity JNI system on [this](https://docs.unity3d.com/530/Documentation/Manual/PluginsForAndroid.html) page.
+
+### Payment operation result handler example
+
+```csharp
+public void OnPaymentOperationCompleteEventHandler(string serializedPaymentOperationResponse){
+
+}
+```
+
 ## License
 
 Project **Burning-Lab.CloudPaymentsUnityPlugin** is distributed under the MIT license.
