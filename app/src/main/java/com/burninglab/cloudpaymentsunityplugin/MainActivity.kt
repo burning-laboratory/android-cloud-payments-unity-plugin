@@ -1,14 +1,8 @@
 package com.burninglab.cloudpaymentsunityplugin
 
 import android.os.Bundle
-import android.util.JsonReader
-import android.view.View
 import android.widget.Button
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

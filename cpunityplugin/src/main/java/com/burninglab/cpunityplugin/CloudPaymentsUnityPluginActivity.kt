@@ -2,9 +2,10 @@ package com.burninglab.cpunityplugin
 
 import android.app.Activity
 import android.content.Intent
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.burninglab.cpunityplugin.types.PaymentRequest
+import com.burninglab.cpunityplugin.types.PaymentResponse
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import ru.cloudpayments.sdk.api.models.PaymentDataPayer
 import ru.cloudpayments.sdk.configuration.CloudpaymentsSDK
@@ -20,6 +21,11 @@ class CloudPaymentsUnityPluginActivity : AppCompatActivity() {
      */
     private var PaymentRequestExtraKey = "payment_request"
 
+    /**
+     * Activity extra call send unity message key.
+     */
+    private var SendUnityMessageExtraKey = "send_unity_message";
+
     //endregion
 
     //region Activity Launchers
@@ -29,23 +35,29 @@ class CloudPaymentsUnityPluginActivity : AppCompatActivity() {
      */
     val cpSdkLauncher = CloudpaymentsSDK.getInstance().launcher(this, result = {
 
+        val response:PaymentResponse = PaymentResponse(
+            status = false
+        )
 
         if (it.status != null) {
             if (it.status == CloudpaymentsSDK.TransactionStatus.Succeeded) {
-                Toast.makeText(this, "Успешно! Транзакция №${it.transactionId}", Toast.LENGTH_SHORT).show()
-
-
+                response.status = true;
             } else {
-                if (it.reasonCode != 0) {
-                    Toast.makeText(this, "Ошибка! Транзакция №${it.transactionId}. Код ошибки ${it.reasonCode}", Toast.LENGTH_SHORT).show()
-
-
-                } else {
-                    Toast.makeText(this, "Ошибка! Транзакция №${it.transactionId}.", Toast.LENGTH_SHORT).show()
-
-
-                }
+                response.errorCode = it.reasonCode
             }
+        }
+
+        val extras = intent.extras;
+        val needSendMessage = extras?.getBoolean(SendUnityMessageExtraKey)
+        if (needSendMessage != null && needSendMessage){
+            val serializedPaymentRequest:String? = extras.getString(PaymentRequestExtraKey)
+            var paymentRequest:PaymentRequest = Json.decodeFromString(serializedPaymentRequest.toString())
+
+            var objectName = paymentRequest.responseConfig.callbackObjectName;
+            var methodName = paymentRequest.responseConfig.callbackMethodName;
+            var serializedResponse:String = Json.encodeToString(response)
+
+
         }
 
         finish()
@@ -121,6 +133,18 @@ class CloudPaymentsUnityPluginActivity : AppCompatActivity() {
      */
     public fun startPayment(unityPlayerActivity: Activity, serializedPaymentRequest: String){
         val intent = Intent(unityPlayerActivity, CloudPaymentsUnityPluginActivity::class.java)
+        intent.putExtra(SendUnityMessageExtraKey, true)
+        intent.putExtra(PaymentRequestExtraKey, serializedPaymentRequest)
+        unityPlayerActivity.startActivity(intent)
+    }
+
+    /**
+     * Start payment process.
+     * This method does not calling unity callback.
+     */
+    public fun startPaymentWithoutNotify(unityPlayerActivity: Activity, serializedPaymentRequest: String){
+        val intent = Intent(unityPlayerActivity, CloudPaymentsUnityPluginActivity::class.java)
+        intent.putExtra(SendUnityMessageExtraKey, false)
         intent.putExtra(PaymentRequestExtraKey, serializedPaymentRequest)
         unityPlayerActivity.startActivity(intent)
     }

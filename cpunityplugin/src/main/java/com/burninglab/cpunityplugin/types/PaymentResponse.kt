@@ -12,15 +12,10 @@ data class PaymentResponse(
      * True - Operation successfully complete.
      * False - Operation error.
      */
-    val status:Boolean,
+    var status:Boolean,
 
     /**
      * Operation error code.
      */
-    val errorCode:Int = 0,
-
-    /**
-     * Operation error description.
-     */
-    val errorDescription:String = "Empty message"
+    var errorCode:Int? = 0,
 )
