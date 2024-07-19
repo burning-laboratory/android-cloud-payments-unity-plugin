@@ -34,7 +34,7 @@ List of [EDM4U](https://github.com/googlesamples/unity-jar-resolver.git) depende
             </repositories>
         </androidPackage>
 
-        <androidPackage spec="com.burning-lab:cpunityplugin:[1.1.0]">
+        <androidPackage spec="com.burning-lab:cpunityplugin:[1.1.2]">
             <androidSdkPackageIds>
                 <androidSdkPackageId>cpunityplugin</androidSdkPackageId>
             </androidSdkPackageIds>
@@ -111,6 +111,11 @@ Serialized payment request example.
 	"responseConfig": {
 		"callbackObjectName": "Unity Callback Object Name",
 		"callbackMethodName": "Unity Callback Method Name"
+	},
+	"config": {
+		"requiredEmail": false,
+		"useDualMessagePayment": false,
+		"apiUrl": "Api server installation URL."
 	}
 }
 ```
