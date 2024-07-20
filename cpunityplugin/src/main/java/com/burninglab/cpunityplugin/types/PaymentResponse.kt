@@ -22,5 +22,10 @@ data class PaymentResponse(
     /**
      * Purchased bundle object id.
      */
-    var bundleObjectId: String = ""
+    var bundleId: String = "",
+
+    /**
+     * Invoice identifier.
+     */
+    var invoiceId:String =""
 )

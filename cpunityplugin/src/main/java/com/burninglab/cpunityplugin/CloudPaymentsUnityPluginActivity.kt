@@ -2,7 +2,6 @@ package com.burninglab.cpunityplugin
 
 import android.app.Activity
 import android.content.Intent
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.burninglab.cpunityplugin.types.PaymentRequest
 import com.burninglab.cpunityplugin.types.PaymentResponse
@@ -13,7 +12,6 @@ import ru.cloudpayments.sdk.api.models.PaymentDataPayer
 import ru.cloudpayments.sdk.configuration.CloudpaymentsSDK
 import ru.cloudpayments.sdk.configuration.PaymentConfiguration
 import ru.cloudpayments.sdk.configuration.PaymentData
-import kotlin.math.log
 
 class CloudPaymentsUnityPluginActivity : AppCompatActivity() {
 
@@ -55,8 +53,9 @@ class CloudPaymentsUnityPluginActivity : AppCompatActivity() {
         if (needSendMessage != null && needSendMessage){
             val serializedPaymentRequest:String? = extras.getString(PaymentRequestExtraKey)
             var paymentRequest:PaymentRequest = Json.decodeFromString(serializedPaymentRequest.toString())
-            response.bundleObjectId = paymentRequest.invoiceInfo.bundleId;
-
+            response.bundleId = paymentRequest.invoiceInfo.bundleId;
+            response.invoiceId = paymentRequest.invoiceInfo.invoiceId;
+            
             var objectName = paymentRequest.responseConfig.callbackObjectName;
             var methodName = paymentRequest.responseConfig.callbackMethodName;
             var serializedResponse:String = Json.encodeToString(response)
