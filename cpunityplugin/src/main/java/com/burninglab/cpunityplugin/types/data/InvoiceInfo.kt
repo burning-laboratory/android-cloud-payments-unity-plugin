@@ -8,6 +8,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class InvoiceInfo(
     /**
+     * Payment bundle object id for purchase.
+     */
+    val bundleId: String = "target_bundle_id_for_purchase",
+
+    /**
      * Custom invoice operation identifier.
      */
     val invoiceId:String = "test_invoice_id",

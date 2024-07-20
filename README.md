@@ -34,7 +34,7 @@ List of [EDM4U](https://github.com/googlesamples/unity-jar-resolver.git) depende
             </repositories>
         </androidPackage>
 
-        <androidPackage spec="com.burning-lab:cpunityplugin:[1.1.1]">
+        <androidPackage spec="com.burning-lab:cpunityplugin:[1.1.2]">
             <androidSdkPackageIds>
                 <androidSdkPackageId>cpunityplugin</androidSdkPackageId>
             </androidSdkPackageIds>
@@ -103,6 +103,7 @@ Serialized payment request example.
 		"email": "support@burning-lab.com"
 	},
 	"invoiceInfo": {
+	    "bundleId": "Bundle Object ID for purchase",
 		"invoiceId": "test_invoice",
 		"amount": 100.0,
 		"currencyCode": "RUB",
@@ -127,7 +128,8 @@ Example of payment operation serialized response.
 ```json
 {
 	"status": true,
-	"errorCode": 0
+	"errorCode": 0,
+	"bundleObjectId": "Purchased bundle object id."
 }
 ```
 

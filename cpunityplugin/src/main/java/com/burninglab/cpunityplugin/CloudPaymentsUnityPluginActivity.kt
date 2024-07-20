@@ -55,6 +55,7 @@ class CloudPaymentsUnityPluginActivity : AppCompatActivity() {
         if (needSendMessage != null && needSendMessage){
             val serializedPaymentRequest:String? = extras.getString(PaymentRequestExtraKey)
             var paymentRequest:PaymentRequest = Json.decodeFromString(serializedPaymentRequest.toString())
+            response.bundleObjectId = paymentRequest.invoiceInfo.bundleId;
 
             var objectName = paymentRequest.responseConfig.callbackObjectName;
             var methodName = paymentRequest.responseConfig.callbackMethodName;
@@ -62,10 +63,6 @@ class CloudPaymentsUnityPluginActivity : AppCompatActivity() {
 
             UnityPlayer.UnitySendMessage(objectName, methodName, serializedResponse)
         }
-
-        response.errorCode = 25;
-        var serializedResponse:String = Json.encodeToString(response)
-        Log.i("INFO", "Serialized payment response: $serializedResponse")
 
         finish()
     })

@@ -18,4 +18,9 @@ data class PaymentResponse(
      * Operation error code.
      */
     var errorCode:Int? = 0,
+
+    /**
+     * Purchased bundle object id.
+     */
+    var bundleObjectId: String = ""
 )

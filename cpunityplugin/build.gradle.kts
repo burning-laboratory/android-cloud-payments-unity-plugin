@@ -67,7 +67,7 @@ afterEvaluate {
             create<MavenPublication>("mavenRelease") {
                 groupId = "com.burning-lab"
                 artifactId = "cpunityplugin"
-                version = "1.1.1"
+                version = "1.1.2"
 
                 from(components["release"])
             }
