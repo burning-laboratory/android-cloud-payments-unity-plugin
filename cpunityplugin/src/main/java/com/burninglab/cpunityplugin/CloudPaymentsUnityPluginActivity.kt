@@ -2,6 +2,7 @@ package com.burninglab.cpunityplugin
 
 import android.app.Activity
 import android.content.Intent
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.burninglab.cpunityplugin.types.PaymentRequest
 import com.burninglab.cpunityplugin.types.PaymentResponse
@@ -80,7 +81,7 @@ class CloudPaymentsUnityPluginActivity : AppCompatActivity() {
         val serializedPaymentRequest:String? = extras?.getString(PaymentRequestExtraKey)
         val paymentRequest:PaymentRequest = Json.decodeFromString(serializedPaymentRequest.toString())
 
-        startPayment(paymentRequest)
+        launchPaymentActivity(paymentRequest)
     }
 
     //endregion
@@ -90,7 +91,7 @@ class CloudPaymentsUnityPluginActivity : AppCompatActivity() {
     /**
      * Start payment with cloud payments SDK method.
      */
-    private fun startPayment(request: PaymentRequest){
+    private fun launchPaymentActivity(request: PaymentRequest){
 
         val payerInfo = PaymentDataPayer(
             firstName = request.payerInfo.firstName,
